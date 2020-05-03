@@ -10,7 +10,7 @@ Plase note that if you want to run the colab notebook, you need to make sure to 
 
 1. After installing the dependencies, restart the runtime. This is because colab notebooks get preloaded with matplotlib, mpl_toolkits, numpy, pandas, tqdm, which are replaced with older versions. If the runtime is not restarted, it will not use the older versions.
 
-2. Import the kaggle dataset manually (either upload it or load from google drive)
+2. Import the kaggle dataset manually (either upload it or load from google drive). I did not want to include my kaggle credentials in the notebook.
 
 ## Experiment:
 1. Trained the model for **Binary Classification** for covid-19 using the 31 layer **DCNN resnet**.
@@ -44,7 +44,7 @@ The metrics are slightly worse than what was in the associated [post](https://to
 Looking at the LIME explanation, you can see that both the negative and positive indicators mostly lie outside the lungs. This implies that model is not using the right features to make its classification. This is inline with the author's obervations as well.
 
 # Part 2
-See attached PDF for explanation of SHAP
+See attached [PDF](https://github.com/dchu1/6613-project-5/blob/master/SHAP%20explanation.pdf) for explanation of SHAP
 
 # Part 3
 I modified the SHAP GradientExplainer [example](https://github.com/slundberg/shap/blob/master/notebooks/gradient_explainer/Explain%20an%20Intermediate%20Layer%20of%20VGG16%20on%20ImageNet.ipynb) to use our model, and explain the 17th layer for the first image in the test set
@@ -62,11 +62,11 @@ Similar to the LIME explanation, most of the features that most influenced the p
     - disable tf2 features for compatability
     - import tensorflow.compat.v1.keras.backend instead of the notebooks current version of keras.backend
     
-    *note that there is also an [example](https://github.com/slundberg/shap/blob/master/notebooks/gradient_explainer/Multi-input%20Gradient%20Explainer%20MNIST%20Example.ipynb) that is compatible with TF 2.0, but uses a much simpler 1 CNN block model*
+    *note that there is also an [example](https://github.com/slundberg/shap/blob/master/notebooks/gradient_explainer/Multi-input%20Gradient%20Explainer%20MNIST%20Example.ipynb) that is compatible with TF 2.0, but uses a much simpler 1 CNN block model. However, if I were to do this again I would instead try and use that example.*
 
 2. As part of preprocessing the images, the pixels are standarized (pixel values scaled to have a zero mean and unit variance):
 
     `test_img_gen = ImageDataGenerator(preprocessing_function=remove_text, samplewise_std_normalization=True, samplewise_center=True)`
 
-    As a result, I had to modify the shap.image_plot code to draw the original image rather than the preprocessed image.
+    As a result, I had to modify the shap.image_plot code to draw the original image rather than the preprocessed image (whose pixels are centered around 0).
 
